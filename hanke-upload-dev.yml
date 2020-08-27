@@ -1,0 +1,62 @@
+#
+# Copyright © 2019-Now imxushuai
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+server:
+  port: 8002
+spring:
+  application:
+    name: upload-service
+  servlet:
+    multipart:
+      # 限制单个文件的大小
+      max-file-size: 5MB
+## Eureka
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+#      defaultZone: http://192.168.0.120:8081/eureka/
+      defaultZone: http://127.0.0.1:8081/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+# ===================================================================
+# 分布式文件系统FDFS配置
+# ===================================================================
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image:             #缩略图生成参数
+    width: 150
+    height: 50
+  tracker-list:            #TrackerList参数,支持多个
+    - 116.63.149.150:22122
+  pool:
+    # 连接池最大数量
+    max-total: 200
+    # 每个tracker地址的最大连接数
+    max-total-per-key: 50
+    # 连接耗尽时等待获取连接的最大毫秒数
+    max-wait-millis: 5000
+istar:
+  upload:
+    imageServer: http://116.63.149.150/
+    imageTypes:
+      - image/jpeg
+      - image/bmp
+      - image/png
